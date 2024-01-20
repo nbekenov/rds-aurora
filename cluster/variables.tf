@@ -1,7 +1,7 @@
 variable "database_name" {
   type        = string
   description = "database_name"
-  default     = "aurora-db"
+  default     = "aurorapostgres"
 }
 
 variable "admin_user_name" {
@@ -26,7 +26,6 @@ variable "min_capacity" {
   type        = number
   description = "min scaling capacity"
   default     = 2
-
 }
 
 variable "vpc_name" {

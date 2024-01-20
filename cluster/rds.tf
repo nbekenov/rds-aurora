@@ -25,11 +25,14 @@ module "aurora_postgresql_v2" {
   name          = var.database_name
   database_name = var.database_name
 
-  engine_mode    = "serverless"
   engine         = data.aws_rds_engine_version.postgresql.engine
   engine_version = data.aws_rds_engine_version.postgresql.version
 
   instance_class = "db.serverless"
+  instances = {
+    one = {}
+    two = {}
+  }
   serverlessv2_scaling_configuration = {
     min_capacity = var.min_capacity
     max_capacity = var.max_capacity
@@ -49,11 +52,9 @@ module "aurora_postgresql_v2" {
       cidr_blocks = [data.aws_vpc.vpc.cidr_block]
     }
   }
-
   monitoring_interval = 60
   apply_immediately   = true
   skip_final_snapshot = true
 
   deletion_protection = true
-
 }
