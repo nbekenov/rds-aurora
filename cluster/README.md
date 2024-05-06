@@ -1,5 +1,7 @@
 # RDS Aurora Cluster creation
 
+[For more details check my post in dev.to](https://dev.to/aws-builders/create-rds-cluster-and-manage-passwords-in-2024-4n3d)
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
