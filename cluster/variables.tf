@@ -1,3 +1,9 @@
+variable "aws_region" {
+  type        = string
+  description = "aws_region"
+  default     = "us-east-1"
+}
+
 variable "database_name" {
   type        = string
   description = "database_name"
@@ -32,4 +38,10 @@ variable "vpc_name" {
   type        = string
   description = "vpc_name"
   default     = "main-vpc"
+}
+
+variable "postgres_user" {
+  type        = string
+  description = "postgres_user"
+  default     = "postgres_lambda_user"
 }
