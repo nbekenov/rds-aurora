@@ -1,0 +1,46 @@
+---
+schemaVersion: "2.2"
+description: Create required users for Lambda access
+parameters: 
+  dbhost:    
+    type: String    
+    description: The hostname of the RDS instance    
+    default: "${dbhost}" 
+  dbport:    
+    type: String    
+    description: The port of the RDS instance    
+    default: "${dbport}"  
+  dbname:    
+    type: String    
+    description: The name of the database    
+    default: "${dbname}"  
+  dbuser:   
+    type: String    
+    description: The username of the database  
+  dbpassword:    
+    type: String    
+    description: The password of the database  
+  pguser:    
+    type: String    
+    description: The username of the PostgreSQL user    
+    default: "${pguser}"
+
+mainSteps:  
+  - action: aws:runShellScript    
+    name: rds_bootstrap_create_pguser    
+    inputs:      
+      runCommand:        
+        - |         
+          #!/bin/bash          
+          export PGPASSWORD="{{dbpassword}}"          
+          psql -h {{dbhost}} -p {{dbport}} -d {{dbname}} -U {{dbuser}} <<EOF
+          DO \$\$
+          BEGIN            
+            CREATE USER {{pguser}};            
+            GRANT rds_iam TO {{pguser}};            
+            GRANT CREATE ON DATABASE {{dbname}} TO {{pguser}};            
+            EXCEPTION WHEN duplicate_object THEN              
+              RAISE NOTICE 'User {{pguser}} already exists. Skipping...';          
+            END          
+            \$\$;          
+            EOF
